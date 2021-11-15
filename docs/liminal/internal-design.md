@@ -61,15 +61,17 @@ There are several variants of the Image builder, whith different base `Dockerfil
 This particular file needs to be pre-deployed into Airflow's DAGs folder (when running Liminal locally, 
 the `liminal start` command takes care of that for you).
 
-This Python file acts as a [DAG factory](https://www.astronomer.io/guides/dynamically-generating-dags) - i.e. it scans the DAGs folder for any Liminal YAML files, and traslates them    
-into Airflow DAGs. For example - Tasks that were defined in the YAML get translated into Airflow Task object, and Executors
-get translated into Airflow Operators. 
+**5** : The Liminal Python file acts as a [DAG factory](https://www.astronomer.io/guides/dynamically-generating-dags) - i.e. it scans the DAGs folder for any Liminal YAML files, and traslates them    
+into Airflow DAGs. 
 
-**5** : The returned DAG is registered with Airflow.
+Liminal *Tasks* get translated into Airflow Tasks.
+Liminal *Executors* get translated into Airflow Operators. 
 
-**6** : Airflow scheduler starts the DAG, and the Operator executes a Task that runs on Kubernetes.
+**6** : The returned DAG is registered with Airflow.
 
-**7** : The User's Docker image from step (1) is executed as a Pod on Kubernetes, using the mounted volume created in step (2).
+**7** : Airflow scheduler starts the DAG, and the Operator executes a Task that runs on Kubernetes.
+
+**8** : The User's Docker image from step (1) is executed as a Pod on Kubernetes, using the mounted volume created in step (2).
 
 
 

@@ -53,15 +53,20 @@ There are several variants of the Image builder, whith different base `Dockerfil
 
 **1** : `liminal build` runs the *Builders* on the user's YAML and Python files, and creates a Docker container.
 
-**2** :  `liminal create` scans the YAML files and detects any PersistentVolumes that need to be created, then creates them
-**3** : `liminal deploy` picks up the YAML file and places it in a folder that Airflow uses to periodically scan for DAGs
-**4** : Airflow scheduler scans the DAGs folder, and encounters a Liminal python file that was pre-installed with Airflow.
-    This Python file acts as a DAG factory - i.e. it scans the DAGs folder for any Liminal YAML files, and traslates them    
-    into Airflow DAGs. For example - Tasks that were deinfed in the YAML get trasnlated into Airflow Task object, and Executores
-    get translated into Airflow Operators. 
-**5** : The returned DAG is registered with Airflow
-**6** : Airflow scheduler starts the DAG, and the Operator executes a Task that runs on Kuberentes
-**7** : The User's Docker image from step (1) is executed as a Pod on Kuberentes, using the mounted volume created in step (2)
+**2** :  `liminal create` scans the YAML files and detects any PersistentVolumes that need to be created, then creates them.
+
+**3** : `liminal deploy` picks up the YAML file and places it in a folder that Airflow uses to periodically scan for DAGs.
+
+**4** : Airflow scheduler scans the DAGs folder, and encounters a Liminal python file that was pre-installed with Airflow. 
+This Python file acts as a DAG factory - i.e. it scans the DAGs folder for any Liminal YAML files, and traslates them    
+into Airflow DAGs. For example - Tasks that were deinfed in the YAML get trasnlated into Airflow Task object, and Executores
+get translated into Airflow Operators. 
+
+**5** : The returned DAG is registered with Airflow.
+
+**6** : Airflow scheduler starts the DAG, and the Operator executes a Task that runs on Kuberentes.
+
+**7** : The User's Docker image from step (1) is executed as a Pod on Kuberentes, using the mounted volume created in step (2).
 
 
 

@@ -49,7 +49,7 @@ There are several variants of the Image builder, whith different base `Dockerfil
 
 ## The lifecycle of a Liminal Pipeline
 
-![](../nstatic/liminal_hl-flow.png)
+![](../nstatic/liminal-hl-flow.png)
 
 **1** : `liminal build` runs the *Builders* on the user's YAML and Python files, and creates a Docker container.
 

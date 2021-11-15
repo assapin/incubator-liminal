@@ -29,7 +29,7 @@ into running Airflow DAGs.
 A Task has an entrypoint such as a main() function, and that entrypoint may take parameters - which are defined in the
 YAML file as *Variables*.
 
-A *Task* has a type (such as a Python Task, a PySpark task etc.).
+A *Task* has a *type* (such as a Python Task, a PySpark task etc.).
 The type determines how the task gets executed by an *Executor*. 
 
 **Executor** - in charge of executing tasks.
@@ -37,9 +37,9 @@ Executors are able to interpret *Tasks* and send them to be executed on some tar
 Built in executors include *K8s executor* and *EMR executor*, that are able to send tasks to be executed on a K8S cluster,
 and on an EMR cluster accordingly.
 
-However, before tasks can be sent to run on e.g. K8s, they need to by **built**
+However, before tasks can be sent to run on e.g. K8s, they need to be *built*
 
-**Builder** - For a *Task* to be executed on it's target platform, the user provided code needs to be built into a packaged artefact.
+**Builder** - For a *Task* to be executed on its target platform, the user provided code needs to be built into a packaged artefact.
 For example, to run a *Task* on K8s, the user code needs to be built into a docker image (and then pushed into a 
 Container registry that is available for the cluster).
 
@@ -57,16 +57,19 @@ There are several variants of the Image builder, whith different base `Dockerfil
 
 **3** : `liminal deploy` picks up the YAML file and places it in a folder that Airflow uses to periodically scan for DAGs.
 
-**4** : Airflow scheduler scans the DAGs folder, and encounters a Liminal python file that was pre-installed with Airflow. 
-This Python file acts as a DAG factory - i.e. it scans the DAGs folder for any Liminal YAML files, and traslates them    
-into Airflow DAGs. For example - Tasks that were deinfed in the YAML get trasnlated into Airflow Task object, and Executores
+**4** : Airflow scheduler scans the DAGs folder, and encounters a [Liminal Python file](https://github.com/assapin/incubator-liminal/blob/master/liminal/runners/airflow/dag/liminal_dags.py).
+This particular file needs to be pre-deployed into Airflow's DAGs folder (when running Liminal locally, 
+the `liminal start` command takes care of that for you).
+
+This Python file acts as a [DAG factory](https://www.astronomer.io/guides/dynamically-generating-dags) - i.e. it scans the DAGs folder for any Liminal YAML files, and traslates them    
+into Airflow DAGs. For example - Tasks that were defined in the YAML get translated into Airflow Task object, and Executors
 get translated into Airflow Operators. 
 
 **5** : The returned DAG is registered with Airflow.
 
-**6** : Airflow scheduler starts the DAG, and the Operator executes a Task that runs on Kuberentes.
+**6** : Airflow scheduler starts the DAG, and the Operator executes a Task that runs on Kubernetes.
 
-**7** : The User's Docker image from step (1) is executed as a Pod on Kuberentes, using the mounted volume created in step (2).
+**7** : The User's Docker image from step (1) is executed as a Pod on Kubernetes, using the mounted volume created in step (2).
 
 
 
